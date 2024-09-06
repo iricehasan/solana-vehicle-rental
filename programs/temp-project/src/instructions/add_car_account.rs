@@ -9,33 +9,41 @@ use anchor_spl::{
     token::{mint_to, Mint, MintTo, Token, TokenAccount},
 };
 
-use crate::{error::ErrorCode::*, AdminAccount, CarAccount, Status};
+use crate::{error::ErrorCode::*, AdminAccount, CarAccount, Status, CarType, Seq};
 
+// Admin can add a car to the system
+// An NFT is minted that represents the car with name, symbol, and uri fields
 pub fn add_car_account(
     ctx: Context<AddCarAccount>,
-    name: String,
     model: String,
-    rent_fee: u64,
-    deposit_fee: u64,
+    car_type: String,
     nft_name: String,
     nft_symbol: String,
     nft_uri: String,
 ) -> Result<()> {
     let admin_account = &ctx.accounts.admin_account;
 
+    // Only the admin can add a car
     if admin_account.admin != ctx.accounts.authority.key() {
         return Err(Unauthorized.into());
     }
 
     let car_account = &mut ctx.accounts.car_account;
-    car_account.car = car_account.key();
-    car_account.name = name;
-    car_account.model = model;
-    car_account.rent_fee = rent_fee;
-    car_account.deposit_fee = deposit_fee;
-    car_account.car_status = Status::Available;
+    car_account.car_type = match car_type.as_str() {
+        "Small" => CarType::Small,
+        "Medium" => CarType::Medium,
+        "Large" => CarType::Large,
+        "Luxury" => CarType::Luxury,
+        "Suv" => CarType::Suv,
+        "Commercial" => CarType::Commercial,
+        _ => return Err(CarTypeNotSupported.into()), // Handle the invalid car type
+    };
 
-    msg!("Initialized car account for car {}", car_account.name);
+    car_account.car = car_account.key();
+    car_account.model = model;
+    car_account.car_status = Status::Available; // Cars are added as available by default
+
+    msg!("Initialized car account for car {}", car_account.car);
 
     msg!("Minting Token");
     // Cross Program Invocation (CPI)
@@ -105,6 +113,11 @@ pub fn add_car_account(
 
     msg!("NFT minted successfully.");
 
+    let seq = &mut ctx.accounts.seq;
+    seq.car_seq += 1;
+
+    msg!("Increased the Car number by 1");
+
     Ok(())
 }
 
@@ -112,16 +125,18 @@ pub fn add_car_account(
 pub struct AddCarAccount<'info> {
     #[account(mut)]
     pub authority: Signer<'info>, // The admin who will own this account
+    #[account(mut, seeds = [authority.key().as_ref()], bump)]
+    pub seq: Box<Account<'info, Seq>>, // Sequence tracker
     #[account(
         init,
-        seeds = [b"car_account"],
+        seeds = [b"car_account", seq.car_seq.to_string().as_bytes()],
         bump,
         payer = authority,
-        space = 8 + 32 + 64 + 64 + 8 + 8 + 64 // Adjusted for account size
+        space = 8 + 148 // Adjusted for account size
     )]
-    pub car_account: Account<'info, CarAccount>,
-    #[account(seeds = [b"admin"], bump)]
-    pub admin_account: Account<'info, AdminAccount>, // Admin account to verify authority
+    pub car_account: Box<Account<'info, CarAccount>>,
+    #[account(seeds = [b"admin", authority.key().as_ref()], bump)]
+    pub admin_account: Box<Account<'info, AdminAccount>>, // Admin account to verify authority
 
     /// CHECK: Validate address by deriving pda
     #[account(
@@ -149,7 +164,7 @@ pub struct AddCarAccount<'info> {
         mint::authority = authority.key(),
         mint::freeze_authority = authority.key(),
     )]
-    pub mint_account: Account<'info, Mint>,
+    pub mint_account: Box<Account<'info, Mint>>,
 
     // Create associated token account, if needed
     // This is the account that will hold the NFT
@@ -159,7 +174,7 @@ pub struct AddCarAccount<'info> {
         associated_token::mint = mint_account,
         associated_token::authority = authority,
     )]
-    pub associated_token_account: Account<'info, TokenAccount>,
+    pub associated_token_account: Box<Account<'info, TokenAccount>>,
 
     pub token_program: Program<'info, Token>,
     pub token_metadata_program: Program<'info, Metadata>,

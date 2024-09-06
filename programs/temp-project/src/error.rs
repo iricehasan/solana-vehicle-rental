@@ -2,30 +2,18 @@ use anchor_lang::prelude::*;
 
 #[error_code]
 pub enum ErrorCode {
-    #[msg("Car already exists.")]
-    CarAlreadyExists,
-    #[msg("User already exists.")]
-    UserAlreadyExists,
-    #[msg("User does not exist.")]
-    UserDoesNotExist,
-    #[msg("Insufficient balance.")]
-    InsufficientBalance,
+    #[msg("Insufficient amount.")]
+    InsufficientAmount, // error when renting the car by sending insufficient amount
     #[msg("Car is not available.")]
-    CarNotAvailable,
-    #[msg("Car is not rented.")]
-    CarNotRented,
-    #[msg("Overflow error.")]
-    Overflow,
+    CarNotAvailable, // car is already rented and in use.
+    #[msg("Rent is Not Ended Yet.")]
+    RentNotEndedYet, // error when admin tries to end the rent before the end_date
     #[msg("Unauthorized.")]
-    Unauthorized, // Error when a non-admin tries to end a rent
-    #[msg("Amount is Too Big To Withdraw")]
-    AmountTooBig,
-    #[msg("Amount is Too Small To Deposit")]
-    AmountTooSmall,
-    #[msg("Could not load price account")]
-    PythError,
-    #[msg("Failed to serialize price account")]
-    TryToSerializePriceAccount,
-    #[msg("Invalid argument provided")]
-    InvalidArgument,
+    Unauthorized, // Error when a non-admin tries to execute transactiont
+    #[msg("Amount is Too Big To Withdraw")] 
+    AmountTooBig, // Error when requested to withdraw more than user balance
+    #[msg("Amount is Too Small To Deposit")] 
+    AmountTooSmall, // Error when deposited less than 20 dollars
+    #[msg("Car Type is Not Supported")] 
+    CarTypeNotSupported, // Error when adding the car to the program with invalid type
 }

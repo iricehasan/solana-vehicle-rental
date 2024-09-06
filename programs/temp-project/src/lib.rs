@@ -11,7 +11,7 @@ pub mod error;
 mod constants;
 pub use constants::*;
 
-declare_id!("HJCKrdL1VmqHqqqbc8unVatfdrTpvX5gvmWE4YLf6zCJ");
+declare_id!("iNPdYUArjLu2a9YzHPYeeWrGaoEJqTc2p6EANMR84dh");
 
 #[program]
 pub mod temp_project {
@@ -31,28 +31,24 @@ pub mod temp_project {
 
     pub fn add_car_account(
         ctx: Context<AddCarAccount>,
-        name: String,
         model: String,
-        rent_fee: u64,
-        deposit_fee: u64,
+        car_type: String,
         nft_name: String,
         nft_symbol: String,
         nft_uri: String,
     ) -> Result<()> {
         add_car_account::add_car_account(
             ctx,
-            name,
             model,
-            rent_fee,
-            deposit_fee,
+            car_type,
             nft_name,
             nft_symbol,
             nft_uri,
         )
     }
 
-    pub fn rent_car(ctx: Context<RentCar>, start_date: u64, end_date: u64) -> Result<()> {
-        rent_car::rent_car(ctx, start_date, end_date)
+    pub fn rent_car(ctx: Context<RentCar>, rent_time_in_days: u64, amount: u64) -> Result<()> {
+        rent_car::rent_car(ctx, rent_time_in_days, amount)
     }
     
     pub fn deposit(ctx: Context<UpdateBalance>, amount: u64) -> Result<()> {
@@ -67,7 +63,4 @@ pub mod temp_project {
         end_rent::end_rent(ctx)
     }
 
-    pub fn read_price(ctx: Context<ReadPrice>) -> Result<()> {
-        read_price::read_price(ctx)
-    }
 }
