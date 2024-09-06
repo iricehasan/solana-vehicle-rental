@@ -4,7 +4,7 @@ import * as web3 from "@solana/web3.js";
 import { PythSolanaReceiver} from "@pythnetwork/pyth-solana-receiver";
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import { TempProject } from "../target/types/temp_project";
+import { VehicleRental } from "../target/types/vehicle_rental";
 describe("Rent Car", () => {
   // Provider
   const provider = anchor.AnchorProvider.env();
@@ -12,7 +12,7 @@ describe("Rent Car", () => {
   anchor.setProvider(provider);
 
     // Get the program and provider wallet
-  const program = anchor.workspace.TempProject as Program<TempProject>;
+  const program = anchor.workspace.VehicleRental as Program<VehicleRental>;
   const wallet = provider.wallet as anchor.Wallet;
 
     // Derive Seq and userAccount PDAs

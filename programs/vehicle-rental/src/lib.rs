@@ -14,7 +14,7 @@ pub use constants::*;
 declare_id!("iNPdYUArjLu2a9YzHPYeeWrGaoEJqTc2p6EANMR84dh");
 
 #[program]
-pub mod temp_project {
+pub mod vehicle_rental {
     use super::*;
 
     pub fn initialize(ctx: Context<Initialize>, admin: Pubkey) -> Result<()> {

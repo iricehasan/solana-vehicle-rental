@@ -1,5 +1,5 @@
 [package]
-name = "temp-project"
+name = "vehicle-rental"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2021"
@@ -8,7 +8,7 @@ resolver = "2"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "temp_project"
+name = "vehicle_rental"
 
 [features]
 default = []

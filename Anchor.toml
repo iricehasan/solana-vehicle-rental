@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-temp_project = "iNPdYUArjLu2a9YzHPYeeWrGaoEJqTc2p6EANMR84dh"
+vehicle_rental = "iNPdYUArjLu2a9YzHPYeeWrGaoEJqTc2p6EANMR84dh"
 
 [registry]
 url = "https://api.apr.dev"

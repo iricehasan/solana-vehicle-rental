@@ -6,7 +6,7 @@ import { PythSolanaReceiver} from "@pythnetwork/pyth-solana-receiver";
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import { TempProject } from "../target/types/temp_project";
+import { VehicleRental } from "../target/types/vehicle_rental";
 
 describe("Initialize", () => {
     // Provider
@@ -15,7 +15,7 @@ describe("Initialize", () => {
     anchor.setProvider(provider);
   
     // Get the program and provider wallet
-    const program = anchor.workspace.TempProject as Program<TempProject>;
+    const program = anchor.workspace.VehicleRental as Program<VehicleRental>;
     const wallet = provider.wallet as anchor.Wallet; // providers wallet
   
       // Derive Seq and AdminAccount PDAs
