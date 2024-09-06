@@ -83,42 +83,6 @@ pub fn rent_car(ctx: Context<RentCar>, rent_time_in_days: u64, amount: u64) -> R
         ],
         &[],
     )?;
-
-    // return the amount back if user sent more than rent_price
-    if amount - rent_price_usd > 0 {
-
-        let extra = amount - rent_price_usd;
-
-        let amount_to_return_in_lamports = LAMPORTS_PER_SOL
-        .checked_mul(10_u64.pow(price.exponent.abs().try_into().unwrap()))
-        .unwrap()
-        .checked_mul(extra)
-        .unwrap()
-        .checked_div(price.price.try_into().unwrap())
-        .unwrap();
-    
-    
-        // Create the transfer instruction
-        let return_transfer_instruction =
-            system_instruction::transfer(&rent.key(), &from_account.key(), amount_to_return_in_lamports);
-    
-            let seeds = &[
-                b"rent_account".as_ref(),
-                &car.car.as_ref(),
-            ];
-
-        // Invoke the transfer instruction
-        anchor_lang::solana_program::program::invoke_signed(
-            &return_transfer_instruction,
-            &[
-                rent.to_account_info(),
-                from_account.to_account_info(),
-                ctx.accounts.system_program.to_account_info(),
-            ],
-            &[&seeds[..]],
-        )?;
-    }
-
     
     rent.id = rent.key();
     rent.user = ctx.accounts.user_account.key();
@@ -151,7 +115,7 @@ pub struct RentCar<'info> {
         space = 200 
     )]
     pub rent_account: Account<'info, RentAccount>,
-    #[account(mut, seeds = [b"car_account", seq.car_seq.to_string().as_bytes()], bump)]
+    #[account(mut, seeds = [b"car_account", car_account.car_seq.to_string().as_bytes()], bump)]
     pub car_account: Account<'info, CarAccount>, // The car being rented
     #[account(mut, seeds = [USER_ACCOUNT_SEED, authority.key().as_ref()], bump)]
     pub user_account: Account<'info, UserAccount>, // The user renting the car

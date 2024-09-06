@@ -44,9 +44,12 @@ const rentTimeInDays = new BN(1) // rent for 1 day
 it("Rent Car", async () => {
   const seqData = await program.account.seq.fetch(Seq);  
   console.log(JSON.stringify(seqData, null, 2));
+
+    
+  const carSeq = new BN("00"); // The first carAccount was generated with car seq 0
   
   const [carAccount, CarBump] = anchor.web3.PublicKey.findProgramAddressSync(
-      [Buffer.from("car_account"), Buffer.from(seqData.carSeq.toString())],
+      [Buffer.from("car_account"), Buffer.from(carSeq.toString())],
       program.programId
     );
 
@@ -54,7 +57,7 @@ it("Rent Car", async () => {
 console.log(JSON.stringify(carAccountData, null, 2));
 
 const [rentAccount, rentAccountBump] = anchor.web3.PublicKey.findProgramAddressSync(
-  [Buffer.from("rent_account"), carAccountData.car.toBuffer()],
+  [Buffer.from("rent_account"), carAccount.toBuffer()],
   program.programId
 );
 

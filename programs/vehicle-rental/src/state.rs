@@ -31,6 +31,7 @@ pub struct UserAccount {
 #[account]
 #[derive(Default)]
 pub struct CarAccount {
+    pub car_seq: u64, // Store the sequence used for this car to be used in rent_CAR
     pub car: Pubkey, 
     pub model: String,
     pub car_status: Status, // Available or InUse to check

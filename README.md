@@ -38,8 +38,8 @@ anchor_version = "0.30.1"
 #### Clone the repo
 
 ```shell
-git clone https://github.com/0xGRAV3R/nft-mint-vault-swap.git
-cd nft-mint-vault-swap
+git clone https://github.com/iricehasan/solana-vehicle-rental.git
+cd solana-vehicle-rental
 ```
 
 #### Install Dependencies
@@ -63,7 +63,7 @@ You can use any normal anchor commands. Make sure you have the Anchor CLI 0.30.1
 
 Running this command will create a new keypair in the `anchor/target/deploy` directory and save the address to the Anchor config file and update the `declare_id!` macro in the `./src/lib.rs` file of the program.
 
-You will manually need to update the constant in `anchor/lib/counter-exports.ts` to match the new program id.
+You will manually need to update the constant in `anchor/lib/vehicle-rental.ts` to match the new program id.
 
 ```shell
 anchor keys sync
@@ -83,30 +83,44 @@ anchor deploy
 
 #### Run the tests
 
+To run all the tests
+
 ```shell
 anchor run test
+```
+
+Also, you can run the tests one instruction
+
+```shell
+anchor run initialize
+```
+
+```shell
+anchor run register-user
+```
+
+```shell
+anchor run deposit
+```
+
+```shell
+anchor run add-car
+```
+
+```shell
+anchor run rent-car
+```
+
+```shell
+anchor run end-rent
+```
+
+```shell
+anchor run withdraw
 ```
 
 #### Deploy to Devnet
 
 ```shell
-npm run anchor deploy --provider.cluster devnet
-```
-
-### web
-
-This is a React app that uses the Anchor generated client to interact with the Solana program.
-
-#### Commands
-
-Start the web app
-
-```shell
-npm run dev
-```
-
-Build the web app
-
-```shell
-npm run build
+anchor deploy --provider.cluster devnet
 ```

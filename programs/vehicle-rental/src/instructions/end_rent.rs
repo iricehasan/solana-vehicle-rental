@@ -46,7 +46,7 @@ pub struct EndRent<'info> {
         close = authority, // close account and return lamportsxw
     )]
     pub rent_account: Account<'info, RentAccount>, // Rent Account PDA that holds the rent info
-    #[account(mut, seeds = [b"car_account", seq.car_seq.to_string().as_bytes()], bump)]
+    #[account(mut, seeds = [b"car_account", car_account.car_seq.to_string().as_bytes()], bump)]
     pub car_account: Account<'info, CarAccount>, // The car being rented
     #[account(mut, seeds = [USER_ACCOUNT_SEED, authority.key().as_ref()], bump)]
     pub user_account: Account<'info, UserAccount>, // The user renting the car

@@ -32,8 +32,8 @@ const [adminAccount, adminBump] =
   );
 
   // Inputs
-  const model = "clio"
-  const car_type = "Medium";
+  const model = "sedan"
+  const car_type = "Small";
   const nft_name = "name";
   const nft_symbol = "symbol";
   const nft_uri = "uri";

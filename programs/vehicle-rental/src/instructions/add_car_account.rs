@@ -22,6 +22,7 @@ pub fn add_car_account(
     nft_uri: String,
 ) -> Result<()> {
     let admin_account = &ctx.accounts.admin_account;
+    let seq = &mut ctx.accounts.seq;
 
     // Only the admin can add a car
     if admin_account.admin != ctx.accounts.authority.key() {
@@ -42,6 +43,9 @@ pub fn add_car_account(
     car_account.car = car_account.key();
     car_account.model = model;
     car_account.car_status = Status::Available; // Cars are added as available by default
+
+    // Store the sequence in the car account
+    car_account.car_seq = seq.car_seq;
 
     msg!("Initialized car account for car {}", car_account.car);
 
@@ -113,7 +117,6 @@ pub fn add_car_account(
 
     msg!("NFT minted successfully.");
 
-    let seq = &mut ctx.accounts.seq;
     seq.car_seq += 1;
 
     msg!("Increased the Car number by 1");
@@ -132,7 +135,7 @@ pub struct AddCarAccount<'info> {
         seeds = [b"car_account", seq.car_seq.to_string().as_bytes()],
         bump,
         payer = authority,
-        space = 8 + 148 // Adjusted for account size
+        space = 8 + 156 // Adjusted for account size
     )]
     pub car_account: Box<Account<'info, CarAccount>>,
     #[account(seeds = [b"admin", authority.key().as_ref()], bump)]

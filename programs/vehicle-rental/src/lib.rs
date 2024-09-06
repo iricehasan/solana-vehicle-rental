@@ -11,7 +11,7 @@ pub mod error;
 mod constants;
 pub use constants::*;
 
-declare_id!("iNPdYUArjLu2a9YzHPYeeWrGaoEJqTc2p6EANMR84dh");
+declare_id!("HEo7YjjFz4zNRk6VC7chR2EPFyKF8nsjQ9qdEu1NNjse");
 
 #[program]
 pub mod vehicle_rental {

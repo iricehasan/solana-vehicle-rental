@@ -6,24 +6,24 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-vehicle_rental = "iNPdYUArjLu2a9YzHPYeeWrGaoEJqTc2p6EANMR84dh"
+vehicle_rental = "HEo7YjjFz4zNRk6VC7chR2EPFyKF8nsjQ9qdEu1NNjse"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
+add-car = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/add_car.ts"
+deposit = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/deposit.ts"
+end-rent = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/end_rent.ts"
+initialize = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/initialize.ts"
+register-user = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/register_user.ts"
+rent-car = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/rent_car.ts"
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
-initialize = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/initialize.ts" 
-register-user = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/register_user.ts" 
-rent-car = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/rent_car.ts" 
-end-rent = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/end_rent.ts" 
-add-car = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/add_car.ts" 
-deposit = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/deposit.ts" 
-withdraw = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/withdraw.ts" 
+withdraw = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/withdraw.ts"
 
 [test]
 startup_wait = 5000
