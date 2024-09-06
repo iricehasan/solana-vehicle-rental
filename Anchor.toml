@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-vehicle_rental = "HEo7YjjFz4zNRk6VC7chR2EPFyKF8nsjQ9qdEu1NNjse"
+vehicle_rental = "263LoP24D4Xu9eeWBW5c5T1LXXpzgBHtddyBPHfsoobu"
 
 [registry]
 url = "https://api.apr.dev"
